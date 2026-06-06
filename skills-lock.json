@@ -6,6 +6,12 @@
       "sourceType": "github",
       "skillPath": "skills/find-skills/SKILL.md",
       "computedHash": "d31e234f0c90694a670222cdd1dafa853e051d7066beda389f1097c22dadd461"
+    },
+    "marketingskills-ai-agents": {
+      "source": "aradotso/trending-skills",
+      "sourceType": "github",
+      "skillPath": "skills/marketingskills-ai-agents/SKILL.md",
+      "computedHash": "7d969ad226219ac308f80cd4e3fe272f32c41e4d5afee1a7bd91ec575c714ed7"
     }
   }
 }
