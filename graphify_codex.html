@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>graphify · codex</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#0a0a0f;--surface:#111118;--border:#1e1e2a;--border2:#2a2a3a;
+  --gold:#c9a84c;--gold-dim:#7a6330;--gold-pale:#3a3020;
+  --red:#cc3333;--blue:#3a6fa8;--green:#2d7a4f;--purple:#6b3fa0;
+  --text:#d4c9b0;--text-dim:#7a7060;--text-muted:#4a4540;
+}
+body{background:var(--bg);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:11px;overflow:hidden;height:100vh;width:100vw;}
+
+/* ─ LOADER / INPUT SCREEN ─ */
+#loader{
+  position:fixed;inset:0;background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  z-index:1000;gap:0;
+  transition:opacity .4s ease;
+}
+#loader.hidden{opacity:0;pointer-events:none;}
+
+.logo{
+  font-family:'EB Garamond',serif;font-size:48px;font-weight:500;
+  color:var(--gold);letter-spacing:.05em;margin-bottom:4px;
+  text-shadow:0 0 60px rgba(201,168,76,.3);
+}
+.logo span{color:var(--text-muted);}
+.tagline{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-muted);margin-bottom:48px;}
+
+.input-area{
+  width:560px;
+  display:flex;flex-direction:column;gap:12px;
+}
+
+.input-label{
+  font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);
+  margin-bottom:4px;
+}
+
+#kb-text{
+  width:100%;height:180px;
+  background:var(--surface);border:1px solid var(--border2);
+  color:var(--text);font-family:'JetBrains Mono',monospace;font-size:10px;
+  padding:12px 14px;border-radius:4px;resize:none;outline:none;line-height:1.6;
+  transition:border-color .2s;
+}
+#kb-text:focus{border-color:var(--gold-dim);}
+#kb-text::placeholder{color:var(--text-muted);}
+
+.btn-row{display:flex;gap:8px;align-items:center;}
+
+#btn-parse{
+  flex:1;padding:10px 20px;
+  background:var(--gold-pale);border:1px solid var(--gold-dim);
+  color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:10px;
+  letter-spacing:.15em;text-transform:uppercase;
+  border-radius:4px;cursor:pointer;transition:all .2s;
+}
+#btn-parse:hover:not(:disabled){background:rgba(201,168,76,.15);border-color:var(--gold);}
+#btn-parse:disabled{opacity:.4;cursor:not-allowed;}
+
+#btn-file{
+  padding:10px 14px;
+  background:var(--surface);border:1px solid var(--border2);
+  color:var(--text-dim);font-family:'JetBrains Mono',monospace;font-size:10px;
+  border-radius:4px;cursor:pointer;transition:all .2s;white-space:nowrap;
+}
+#btn-file:hover{border-color:var(--border);color:var(--text);}
+#file-input{display:none;}
+
+.hint{font-size:9px;color:var(--text-muted);text-align:center;line-height:1.6;}
+
+/* ─ PROGRESS ─ */
+#progress{
+  width:560px;margin-top:0;
+  display:none;flex-direction:column;gap:8px;
+}
+#prog-bar-wrap{height:2px;background:var(--border);border-radius:1px;overflow:hidden;}
+#prog-bar{height:100%;background:var(--gold);border-radius:1px;width:0%;transition:width .3s ease;}
+#prog-msg{font-size:9px;color:var(--text-muted);text-align:center;letter-spacing:.1em;min-height:14px;}
+#prog-log{
+  font-size:9px;color:var(--text-muted);
+  background:var(--surface);border:1px solid var(--border);
+  padding:10px 12px;border-radius:4px;height:80px;overflow-y:auto;
+  line-height:1.8;
+}
+#prog-log::-webkit-scrollbar{width:3px;}
+#prog-log::-webkit-scrollbar-thumb{background:var(--border);border-radius:1px;}
+
+#error-msg{
+  font-size:10px;color:#e87070;background:rgba(204,51,51,.1);
+  border:1px solid rgba(204,51,51,.3);padding:10px 14px;border-radius:4px;
+  display:none;line-height:1.5;
+}
+
+/* ─ GRAPH SCREEN ─ */
+#graph-screen{
+  position:fixed;inset:0;display:none;
+}
+#canvas{position:absolute;inset:0;}
+
+#header{
+  position:fixed;top:0;left:0;right:0;height:52px;
+  background:linear-gradient(180deg,rgba(10,10,15,.98) 0%,rgba(10,10,15,0) 100%);
+  display:flex;align-items:center;padding:0 24px;gap:16px;z-index:100;
+  border-bottom:1px solid var(--border);backdrop-filter:blur(8px);
+}
+.htitle{font-family:'EB Garamond',serif;font-size:18px;font-weight:500;color:var(--gold);letter-spacing:.05em;}
+.hsub{font-size:9px;color:var(--text-dim);letter-spacing:.15em;text-transform:uppercase;}
+.hsep{color:var(--text-muted);}
+
+#legend{
+  position:fixed;bottom:20px;left:20px;
+  background:rgba(17,17,24,.92);border:1px solid var(--border);
+  padding:14px 18px;border-radius:4px;z-index:100;backdrop-filter:blur(8px);min-width:190px;
+}
+#legend h4{font-family:'EB Garamond',serif;font-size:11px;color:var(--text-dim);letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px;border-bottom:1px solid var(--border);padding-bottom:6px;}
+.li{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:10px;color:var(--text-dim);}
+.ld{width:10px;height:10px;border-radius:50%;flex-shrink:0;border:1px solid rgba(255,255,255,.15);}
+
+#detail{
+  position:fixed;top:60px;right:20px;width:300px;
+  background:rgba(17,17,24,.95);border:1px solid var(--border);border-radius:4px;
+  z-index:100;backdrop-filter:blur(12px);overflow:hidden;display:none;
+  animation:si .15s ease-out;
+}
+@keyframes si{from{opacity:0;transform:translateX(8px)}to{opacity:1;transform:translateX(0)}}
+#dh{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+#dt{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);}
+#dn{font-family:'EB Garamond',serif;font-size:16px;font-weight:500;color:var(--text);margin-top:2px;line-height:1.2;}
+#dc{cursor:pointer;color:var(--text-muted);font-size:16px;line-height:1;padding:4px;transition:color .15s;}
+#dc:hover{color:var(--text);}
+#db{padding:12px 16px;max-height:400px;overflow-y:auto;}
+#db::-webkit-scrollbar{width:4px;}#db::-webkit-scrollbar-track{background:var(--surface);}#db::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+.ds{margin-bottom:12px;}.ds h5{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;}.ds p{font-size:10px;color:var(--text-dim);line-height:1.6;}
+
+#controls{position:fixed;bottom:20px;right:20px;display:flex;gap:6px;z-index:100;}
+.cb{width:30px;height:30px;background:rgba(17,17,24,.92);border:1px solid var(--border);color:var(--text-dim);border-radius:4px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:all .15s;backdrop-filter:blur(8px);}
+.cb:hover{border-color:var(--gold-dim);color:var(--gold);}
+
+#sw{position:fixed;top:60px;left:20px;z-index:100;}
+#search{background:rgba(17,17,24,.85);border:1px solid var(--border);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:10px;padding:6px 12px;border-radius:4px;outline:none;width:200px;backdrop-filter:blur(8px);transition:border-color .2s;}
+#search:focus{border-color:var(--gold-dim);}
+#search::placeholder{color:var(--text-muted);}
+
+#tooltip{position:fixed;background:rgba(17,17,24,.95);border:1px solid var(--border);padding:6px 10px;border-radius:3px;font-size:10px;color:var(--text-dim);pointer-events:none;display:none;z-index:200;max-width:200px;line-height:1.5;}
+
+#btn-restart{
+  position:fixed;top:60px;right:20px;
+  padding:6px 12px;background:var(--surface);border:1px solid var(--border);
+  color:var(--text-dim);font-family:'JetBrains Mono',monospace;font-size:9px;
+  letter-spacing:.1em;border-radius:4px;cursor:pointer;z-index:100;
+  transition:all .15s;
+}
+#btn-restart:hover{border-color:var(--gold-dim);color:var(--gold);}
+
+.node circle{transition:filter .2s;cursor:pointer;}.node:hover circle{filter:brightness(1.3);}
+.node text{font-family:'JetBrains Mono',monospace;pointer-events:none;}
+.link{stroke-opacity:.5;transition:stroke-opacity .2s;}.link:hover{stroke-opacity:1;}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="logo">graphify<span>·</span>codex</div>
+  <div class="tagline">mapa de litígio · geração automática por IA</div>
+
+  <div class="input-area">
+    <div>
+      <div class="input-label">Conhecimento base (texto livre ou estruturado)</div>
+      <textarea id="kb-text" placeholder="Cola aqui o conteúdo do ficheiro CONHECIMENTO_BASE_PROCESSOS.txt ou qualquer texto que descreva processos judiciais, partes, advogados, eventos…
+
+O modelo vai identificar automaticamente:
+• Processos ativos e históricos
+• Partes e advogados
+• Entidades e tribunais
+• Eventos e projetos
+• Relações entre todos os elementos"></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button id="btn-file" onclick="document.getElementById('file-input').click()">📂 Abrir ficheiro</button>
+      <input type="file" id="file-input" accept=".txt,.md,.json">
+      <button id="btn-parse" onclick="startParse()">Gerar grafo →</button>
+    </div>
+
+    <div id="error-msg"></div>
+
+    <div id="progress">
+      <div id="prog-bar-wrap"><div id="prog-bar"></div></div>
+      <div id="prog-msg"></div>
+      <div id="prog-log"></div>
+    </div>
+
+    <div class="hint">
+      graphify · codex · usa a API do Claude para análise<br>
+      Aceita ficheiros .txt, .md ou qualquer texto estruturado
+    </div>
+  </div>
+</div>
+
+<!-- GRAPH -->
+<div id="graph-screen">
+  <svg id="canvas"></svg>
+  <div id="header">
+    <div><div class="htitle" id="h-title">Mapa de Litígio</div></div>
+    <span class="hsep">|</span>
+    <div class="hsub" id="h-sub">—</div>
+  </div>
+  <div id="sw"><input id="search" type="text" placeholder="pesquisar…"/></div>
+  <button id="btn-restart" onclick="restart()">← novo KB</button>
+  <div id="legend">
+    <h4>Legenda</h4>
+    <div class="li"><div class="ld" style="background:#c9a84c"></div>Core / Parte Autora</div>
+    <div class="li"><div class="ld" style="background:#cc3333"></div>Processo Ativo</div>
+    <div class="li"><div class="ld" style="background:#b5602a"></div>Proc. Histórico</div>
+    <div class="li"><div class="ld" style="background:#3a6fa8"></div>Advogado</div>
+    <div class="li"><div class="ld" style="background:#884444"></div>Parte Adversa</div>
+    <div class="li"><div class="ld" style="background:#2d7a4f"></div>Entidade / Tribunal</div>
+    <div class="li"><div class="ld" style="background:#6b3fa0"></div>Evento / Projeto</div>
+    <div class="li"><div class="ld" style="background:#4a6a4a"></div>Testemunha</div>
+  </div>
+  <div id="detail">
+    <div id="dh"><div><div id="dt"></div><div id="dn"></div></div><div id="dc">×</div></div>
+    <div id="db"></div>
+  </div>
+  <div id="tooltip"></div>
+  <div id="controls">
+    <div class="cb" id="zi">+</div>
+    <div class="cb" id="zo">−</div>
+    <div class="cb" id="zr">⌂</div>
+    <div class="cb" id="pin">⊕</div>
+  </div>
+</div>
+
+<script>
+// ─── FILE INPUT ────────────────────────────────────────────────────────────────
+document.getElementById('file-input').addEventListener('change', function(e) {
+  const f = e.target.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = ev => { document.getElementById('kb-text').value = ev.target.result; };
+  r.readAsText(f, 'utf-8');
+});
+
+// ─── PARSE LOGIC ──────────────────────────────────────────────────────────────
+const TYPE_COLORS = {
+  'core':    '#c9a84c',
+  'proc':    '#cc3333',
+  'hist':    '#b5602a',
+  'lawyer':  '#3a6fa8',
+  'adverse': '#884444',
+  'entity':  '#2d7a4f',
+  'event':   '#6b3fa0',
+  'witness': '#4a6a4a',
+};
+const TYPE_RADIUS = {
+  'core':24,'proc':20,'hist':13,'lawyer':12,
+  'adverse':13,'entity':14,'event':13,'witness':10
+};
+
+function setProgress(pct, msg) {
+  document.getElementById('prog-bar').style.width = pct + '%';
+  document.getElementById('prog-msg').textContent = msg;
+}
+function addLog(msg) {
+  const log = document.getElementById('prog-log');
+  log.textContent += msg + '\n';
+  log.scrollTop = log.scrollHeight;
+}
+function showError(msg) {
+  const el = document.getElementById('error-msg');
+  el.textContent = '⚠ ' + msg;
+  el.style.display = 'block';
+}
+function hideError() {
+  document.getElementById('error-msg').style.display = 'none';
+}
+
+async function startParse() {
+  const kb = document.getElementById('kb-text').value.trim();
+  if (!kb) { showError('Cola o texto do conhecimento base antes de continuar.'); return; }
+  if (kb.length < 100) { showError('Texto demasiado curto. Junta mais contexto.'); return; }
+
+  hideError();
+  document.getElementById('btn-parse').disabled = true;
+  document.getElementById('progress').style.display = 'flex';
+  document.getElementById('prog-log').textContent = '';
+
+  setProgress(5, 'A enviar para análise…');
+  addLog('→ Iniciando análise com Claude Sonnet…');
+  addLog('→ KB: ' + kb.length.toLocaleString() + ' caracteres');
+
+  const systemPrompt = `És um especialista em análise de documentos jurídicos portugueses.
+Vais receber o conteúdo de um ficheiro de conhecimento base que descreve processos judiciais.
+Deves extrair TODOS os elementos relevantes e devolver um JSON com a seguinte estrutura EXACTA:
+
+{
+  "meta": {
+    "title": "título curto do projeto",
+    "subtitle": "descrição de uma linha"
+  },
+  "nodes": [
+    {
+      "id": "id_unico_sem_espacos",
+      "label": "Nome\nSegunda linha (máx 2 linhas)",
+      "type": "core|proc|hist|lawyer|adverse|entity|event|witness",
+      "detail": {
+        "type": "Descrição do tipo",
+        "info": [
+          {"h": "Campo", "t": "Valor"}
+        ]
+      }
+    }
+  ],
+  "links": [
+    {
+      "s": "id_origem",
+      "t": "id_destino",
+      "label": "etiqueta curta",
+      "dash": "4,4"
+    }
+  ]
+}
+
+TIPOS DE NÓS:
+- core: partes autoras principais, empresas centrais do litígio
+- proc: processos judiciais ativos
+- hist: processos históricos ou encerrados
+- lawyer: advogados e mandatários
+- adverse: partes adversas, réus, arguidos
+- entity: tribunais, câmaras, entidades públicas
+- event: eventos chave (assembleias, deliberações)
+- witness: testemunhas favoráveis
+
+REGRAS:
+1. Cria ligações (links) entre TODOS os pares de nós relacionados
+2. Usa "dash": "4,4" para ligações indiretas ou de influência
+3. O campo "label" dos nós usa \\n para quebra de linha (máx 2 linhas, ~12 chars cada)
+4. IDs: apenas letras minúsculas, números e underscore
+5. Inclui TODOS os processos, partes, advogados, tribunais e eventos mencionados
+6. info deve ter 3-6 campos por nó com informação concreta
+7. RESPONDE APENAS com o JSON, sem markdown, sem explicações, sem \`\`\`json`;
+
+  const userPrompt = `Analisa este conhecimento base e extrai o grafo:\n\n${kb.slice(0, 40000)}`;
+
+  try {
+    setProgress(15, 'A contactar API…');
+    addLog('→ Chamada à API Anthropic…');
+
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 8000,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userPrompt }]
+      })
+    });
+
+    setProgress(60, 'A processar resposta…');
+    addLog('→ Resposta recebida, a processar…');
+
+    if (!resp.ok) {
+      const err = await resp.text();
+      throw new Error(`API ${resp.status}: ${err.slice(0,200)}`);
+    }
+
+    const data = await resp.json();
+    const raw = data.content?.find(b => b.type === 'text')?.text || '';
+
+    addLog('→ JSON extraído: ' + raw.length.toLocaleString() + ' chars');
+    setProgress(75, 'A parsear grafo…');
+
+    // Clean and parse JSON
+    let clean = raw.trim();
+    clean = clean.replace(/^```json\s*/,'').replace(/\s*```$/,'').trim();
+    clean = clean.replace(/^```\s*/,'').replace(/\s*```$/,'').trim();
+
+    let graph;
+    try {
+      graph = JSON.parse(clean);
+    } catch(e) {
+      // Try to extract JSON object
+      const match = clean.match(/\{[\s\S]*\}/);
+      if (match) graph = JSON.parse(match[0]);
+      else throw new Error('Não foi possível parsear o JSON: ' + e.message);
+    }
+
+    if (!graph.nodes || !Array.isArray(graph.nodes)) throw new Error('JSON inválido: falta array "nodes"');
+    if (!graph.links || !Array.isArray(graph.links)) throw new Error('JSON inválido: falta array "links"');
+
+    addLog(`→ ${graph.nodes.length} nós, ${graph.links.length} ligações extraídas`);
+    setProgress(90, 'A renderizar grafo…');
+
+    // Enrich with colors and radii
+    graph.nodes = graph.nodes.map(n => ({
+      ...n,
+      color: TYPE_COLORS[n.type] || '#666666',
+      r: TYPE_RADIUS[n.type] || 12
+    }));
+
+    addLog('→ A inicializar visualização D3…');
+
+    setTimeout(() => {
+      setProgress(100, 'Concluído!');
+      addLog('✅ Grafo gerado com sucesso');
+      setTimeout(() => showGraph(graph), 400);
+    }, 300);
+
+  } catch (err) {
+    setProgress(0, '');
+    addLog('❌ Erro: ' + err.message);
+    showError(err.message);
+    document.getElementById('btn-parse').disabled = false;
+  }
+}
+
+// ─── GRAPH RENDERING ──────────────────────────────────────────────────────────
+let sim, zoomBehavior;
+
+function showGraph(graph) {
+  // Update header
+  document.getElementById('h-title').textContent = graph.meta?.title || 'Mapa de Litígio';
+  document.getElementById('h-sub').textContent =
+    `${graph.nodes.length} nós · ${graph.links.length} ligações`;
+
+  // Hide loader, show graph
+  document.getElementById('loader').classList.add('hidden');
+  setTimeout(() => {
+    document.getElementById('loader').style.display = 'none';
+    document.getElementById('graph-screen').style.display = 'block';
+    renderGraph(graph);
+  }, 400);
+}
+
+function renderGraph(graph) {
+  const W = window.innerWidth, H = window.innerHeight;
+  const nodes = graph.nodes.map(n => ({...n}));
+  const links = graph.links.map(l => ({...l}));
+
+  const svg = d3.select('#canvas').attr('width', W).attr('height', H);
+  svg.selectAll('*').remove();
+
+  const defs = svg.append('defs');
+  defs.append('marker').attr('id','arrow').attr('viewBox','0 -4 8 8').attr('refX',8).attr('refY',0)
+    .attr('markerWidth',6).attr('markerHeight',6).attr('orient','auto')
+    .append('path').attr('d','M0,-3L8,0L0,3').attr('fill','#2a2a3a');
+
+  // Grid
+  const grid = svg.append('g');
+  for(let x=0;x<W;x+=60) grid.append('line').attr('x1',x).attr('y1',0).attr('x2',x).attr('y2',H).attr('stroke','#1a1a22').attr('stroke-width',.5);
+  for(let y=0;y<H;y+=60) grid.append('line').attr('x1',0).attr('y1',y).attr('x2',W).attr('y2',y).attr('stroke','#1a1a22').attr('stroke-width',.5);
+
+  const g = svg.append('g');
+
+  zoomBehavior = d3.zoom().scaleExtent([.15,4]).on('zoom', e => g.attr('transform', e.transform));
+  svg.call(zoomBehavior);
+  const T0 = d3.zoomIdentity.translate(W/2, H/2).scale(.8);
+  svg.call(zoomBehavior.transform, T0);
+
+  sim = d3.forceSimulation(nodes)
+    .force('link', d3.forceLink(links).id(d=>d.id).strength(.35)
+      .distance(d => {
+        const coreS = nodes.find(n=>n.id===d.s)?.type==='core';
+        const coreT = nodes.find(n=>n.id===d.t)?.type==='core';
+        return (coreS||coreT) ? 150 : 100;
+      }))
+    .force('charge', d3.forceManyBody().strength(d => -(d.r||12)*16))
+    .force('collision', d3.forceCollide().radius(d => (d.r||12)+20))
+    .force('center', d3.forceCenter(0,0))
+    .force('x', d3.forceX(0).strength(.03))
+    .force('y', d3.forceY(0).strength(.03))
+    .alphaDecay(.018);
+
+  const le = g.append('g').selectAll('line').data(links).join('line')
+    .attr('class','link')
+    .attr('stroke', d => {
+      const sn = nodes.find(n=>n.id===d.s);
+      return sn?.color || '#333';
+    })
+    .attr('stroke-width', 1.2)
+    .attr('stroke-dasharray', d => d.dash || null)
+    .attr('marker-end','url(#arrow)');
+
+  let pinned = false;
+
+  const ne = g.append('g').selectAll('g').data(nodes).join('g').attr('class','node')
+    .call(d3.drag()
+      .on('start',(e,d)=>{if(!e.active)sim.alphaTarget(.3).restart();d.fx=d.x;d.fy=d.y;})
+      .on('drag',(e,d)=>{d.fx=e.x;d.fy=e.y;})
+      .on('end',(e,d)=>{if(!e.active)sim.alphaTarget(0);if(!pinned){d.fx=null;d.fy=null;}})
+    )
+    .on('click',(e,d)=>showDetail(d))
+    .on('mouseenter',(e,d)=>showTip(e,d))
+    .on('mousemove',moveTip)
+    .on('mouseleave',hideTip);
+
+  ne.append('circle')
+    .attr('r', d=>d.r||12)
+    .attr('fill', d=>(d.color||'#666')+'22')
+    .attr('stroke', d=>d.color||'#666')
+    .attr('stroke-width', d=>d.type==='core'?2:1.5);
+
+  ne.filter(d=>d.type==='proc').append('circle')
+    .attr('r',d=>(d.r||12)+4).attr('fill','none')
+    .attr('stroke',d=>d.color||'#666').attr('stroke-width',.5)
+    .attr('stroke-opacity',.3).attr('stroke-dasharray','3,3');
+
+  ne.append('text')
+    .attr('text-anchor','middle').attr('dominant-baseline','central')
+    .attr('font-size',d=>(d.r||12)>18?9:8)
+    .attr('font-weight',d=>d.type==='core'?'500':'400')
+    .attr('fill',d=>d.color||'#666')
+    .each(function(d){
+      const lines=(d.label||d.id).split('\n');
+      const el=d3.select(this);
+      const lh=11;
+      const yo=-((lines.length-1)*lh)/2;
+      lines.forEach((l,i)=>el.append('tspan').attr('x',0).attr('y',yo+i*lh).text(l));
+    });
+
+  sim.on('tick',()=>{
+    le.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y)
+      .attr('x2',d=>{const dx=d.target.x-d.source.x,dy=d.target.y-d.source.y,dist=Math.sqrt(dx*dx+dy*dy)||1;return d.target.x-(dx/dist)*((d.target.r||12)+8);})
+      .attr('y2',d=>{const dx=d.target.x-d.source.x,dy=d.target.y-d.source.y,dist=Math.sqrt(dx*dx+dy*dy)||1;return d.target.y-(dy/dist)*((d.target.r||12)+8);});
+    ne.attr('transform',d=>`translate(${d.x},${d.y})`);
+  });
+
+  // Controls
+  document.getElementById('zi').onclick=()=>svg.transition().duration(300).call(zoomBehavior.scaleBy,1.4);
+  document.getElementById('zo').onclick=()=>svg.transition().duration(300).call(zoomBehavior.scaleBy,.7);
+  document.getElementById('zr').onclick=()=>svg.transition().duration(500).call(zoomBehavior.transform,T0);
+  document.getElementById('pin').onclick=function(){
+    pinned=!pinned;
+    this.style.color=pinned?'var(--gold)':'';
+    this.style.borderColor=pinned?'var(--gold-dim)':'';
+    if(!pinned){nodes.forEach(d=>{d.fx=null;d.fy=null;});sim.alpha(.3).restart();}
+  };
+
+  // Search
+  document.getElementById('search').addEventListener('input',function(){
+    const q=this.value.toLowerCase();
+    ne.select('circle').attr('fill',d=>!q?d.color+'22':((d.label||'').toLowerCase().includes(q)||JSON.stringify(d.detail||{}).toLowerCase().includes(q))?d.color+'55':d.color+'08')
+      .attr('stroke-opacity',d=>!q?1:((d.label||'').toLowerCase().includes(q)||JSON.stringify(d.detail||{}).toLowerCase().includes(q))?1:.2);
+    ne.select('text').attr('opacity',d=>!q?1:((d.label||'').toLowerCase().includes(q))?1:.2);
+    le.attr('stroke-opacity',d=>!q?.5:(d.source.label?.toLowerCase().includes(q)||d.target.label?.toLowerCase().includes(q))?.8:.05);
+  });
+
+  svg.on('click',e=>{if(e.target===svg.node()||e.target.tagName==='line')document.getElementById('detail').style.display='none';});
+}
+
+// ─── DETAIL / TOOLTIP ─────────────────────────────────────────────────────────
+function showDetail(d){
+  document.getElementById('dt').textContent=d.detail?.type||d.type;
+  document.getElementById('dn').textContent=(d.label||d.id).replace(/\n/g,' ');
+  const db=document.getElementById('db');db.innerHTML='';
+  (d.detail?.info||[]).forEach(i=>{const s=document.createElement('div');s.className='ds';s.innerHTML=`<h5>${i.h}</h5><p>${i.t}</p>`;db.appendChild(s);});
+  document.getElementById('detail').style.display='block';
+}
+document.getElementById('dc').onclick=()=>{document.getElementById('detail').style.display='none';};
+
+const tip=document.getElementById('tooltip');
+function showTip(e,d){tip.textContent=(d.label||d.id).replace(/\n/g,' ');tip.style.display='block';moveTip(e);}
+function moveTip(e){tip.style.left=(e.clientX+14)+'px';tip.style.top=(e.clientY-8)+'px';}
+function hideTip(){tip.style.display='none';}
+
+// ─── RESTART ──────────────────────────────────────────────────────────────────
+function restart(){
+  document.getElementById('graph-screen').style.display='none';
+  document.getElementById('loader').style.display='flex';
+  document.getElementById('loader').classList.remove('hidden');
+  document.getElementById('loader').style.opacity='1';
+  document.getElementById('btn-parse').disabled=false;
+  document.getElementById('progress').style.display='none';
+  document.getElementById('prog-log').textContent='';
+  document.getElementById('prog-bar').style.width='0%';
+  document.getElementById('search').value='';
+  if(sim) sim.stop();
+}
+</script>
+</body>
+</html>

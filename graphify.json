@@ -1,0 +1,354 @@
+{
+  "_meta": {
+    "tool": "graphify",
+    "version": "1.0.0",
+    "project": "Bloco Galeão — A-CEM Fração A/100",
+    "updated": "2026-06-06",
+    "kb_source": "CONHECIMENTO_BASE_PROCESSOS.txt",
+    "description": "Mapa de litígio — nós e ligações. Gerado automaticamente a partir do KB. Editar este ficheiro para actualizar o grafo sem reler o KB."
+  },
+  "nodes": [
+    {
+      "id": "acem", "label": "ACEM\nFração A/100", "type": "core", "r": 28, "color": "#c9a84c",
+      "detail": {
+        "type": "Parte Autora",
+        "info": [
+          {"h": "Empresa", "t": "Fração ACEM – Soc. Adm. de Bens Próprios, Lda. · NIPC 503 295 698"},
+          {"h": "Fração", "t": "A/100, Bloco Galeão, Olhão · Permilagem: 389,282‰"},
+          {"h": "Permilagem total Walter", "t": "403,006‰ (frações A + 606 + 610)"},
+          {"h": "Gerentes", "t": "Walter (coordenação jurídica) · Bruno Barbosa (executivo)"}
+        ]
+      }
+    },
+    {
+      "id": "p171", "label": "171\nLitígio Cave", "type": "proc", "r": 22, "color": "#cc3333",
+      "detail": {
+        "type": "Proc. 171/25.3T8OLH — Ativo",
+        "info": [
+          {"h": "Tribunal", "t": "Tribunal Judicial de Olhão"},
+          {"h": "Objeto", "t": "Propriedade do corredor cave (293m², piso -1). Quatro invasões fev-mai 2024."},
+          {"h": "Danos pedidos", "t": "€108.119 (orçamentos 2026)"},
+          {"h": "Advogado ACEM", "t": "Dr. Jorge André Simões"},
+          {"h": "Advogado Réus", "t": "Dr. Ricardo Severino"},
+          {"h": "Estado", "t": "Réplica em curso (19+ versões). Cautelar conexa: proc. 259."},
+          {"h": "Argumento central", "t": "CRP certidão permanente — 'cave geral do edifício' (art. 7.º CRPred, força plena). Cinco fontes documentais independentes."}
+        ]
+      }
+    },
+    {
+      "id": "p259", "label": "259\nCautelar AGE", "type": "proc", "r": 20, "color": "#cc3333",
+      "detail": {
+        "type": "Proc. 259/26.3T8OLH — Ativo",
+        "info": [
+          {"h": "Tribunal", "t": "JCG Olhão – Juiz 2"},
+          {"h": "Tipo", "t": "Providência cautelar — suspensão deliberações AGE 28/02/2026"},
+          {"h": "Advogada ACEM", "t": "Dra. Eduarda Reis"},
+          {"h": "Valor", "t": "€30.000,01"},
+          {"h": "Motivos", "t": "Voto da fração A (389,282‰) ilegalmente excluído. Condómino falecido na lista de presenças."},
+          {"h": "Alerta", "t": "Quota mensal: €750 cobrada vs. €1.418,24 real."}
+        ]
+      }
+    },
+    {
+      "id": "p721", "label": "721\nCoima CMO", "type": "proc", "r": 20, "color": "#cc3333",
+      "detail": {
+        "type": "Proc. 721/24.2BELLE — Ativo",
+        "info": [
+          {"h": "Tipo", "t": "Contraordenação administrativa"},
+          {"h": "Coima", "t": "€22.000 + €102 custas · Despacho CMO n.º 116/2024"},
+          {"h": "Objeto", "t": "Cessação uso habitacional fração A/100"},
+          {"h": "Mandatário", "t": "Dr. Pedro Manita da Cruz (48072F)"},
+          {"h": "Prazo crítico", "t": "Antes de 01/06/2026 (revogação RGEU)"},
+          {"h": "Estratégia", "t": "C1 (Anulação CMO) + C3 (Nulidade TAF Loulé) antes 01/06. Suplementar C2 após."},
+          {"h": "Prob. sucesso", "t": "65–70% pleno; 75–80% resultado positivo"}
+        ]
+      }
+    },
+    {
+      "id": "p805", "label": "805\nCriminal", "type": "proc", "r": 18, "color": "#cc3333",
+      "detail": {
+        "type": "Proc. 805/21 — Ativo",
+        "info": [
+          {"h": "Tipo", "t": "Processo-crime"},
+          {"h": "Arguido", "t": "Bruno Barbosa (gerente ACEM)"},
+          {"h": "Ofendido", "t": "Nestor da Rocha Costa — arrendatário apt. 404 BG; não condómino"},
+          {"h": "Factos", "t": "1 julho, átrio Bloco Galeão, antes de assembleia geral"},
+          {"h": "Advogada", "t": "Dra. Norma Farroba (substituição em análise)"},
+          {"h": "Testemunha-chave", "t": "Maria Helena Faisca (BG-215)"},
+          {"h": "Proc. conexo", "t": "402/24.7T9OLH — Duarte Santos queixou-se; não pronunciado (in dubio)"}
+        ]
+      }
+    },
+    {
+      "id": "p104", "label": "104\nImpugnação\nAssembleia", "type": "proc", "r": 20, "color": "#cc3333",
+      "detail": {
+        "type": "Proc. 104/24.4T8OLH — Ativo",
+        "info": [
+          {"h": "Tipo", "t": "Impugnação de deliberação de assembleia (2024)"},
+          {"h": "Tribunal", "t": "TJ Olhão — Dra. Goreti Fernandes"},
+          {"h": "Objeto", "t": "Exclusão ilegal do voto da ACEM na assembleia de 2024"},
+          {"h": "Réus", "t": "Administração do Condomínio — Dr. Miguel Vicente Bernardo (CP44579f) + Dr. Ricardo Severino (CP71902f)"},
+          {"h": "Argumento central", "t": "Art. 1430.º n.º 2 CC — lei portuguesa não admite exclusão de voto de condómino. Admissões tácitas art. 574.º CPC."},
+          {"h": "Pedido pendente", "t": "Julgamento antecipado da lide — art. 607.º CPC"}
+        ]
+      }
+    },
+    {
+      "id": "p139", "label": "139\nTRE 2022", "type": "hist", "r": 14, "color": "#b5602a",
+      "detail": {
+        "type": "Proc. Histórico 139/21.9T8OLH.E1",
+        "info": [
+          {"h": "Decisão", "t": "TRE 22/12/2022 — confirma re-eleição Bruno Barbosa como administrador BG em 08/01/2021"},
+          {"h": "Requerentes", "t": "MTG e outros — perderam"},
+          {"h": "Relevância", "t": "Réus omitem este acórdão no §41 da Contestação 171 = litigância de má-fé (art. 542.º CPC)."}
+        ]
+      }
+    },
+    {
+      "id": "p381", "label": "381\nAfastamento\nBruno", "type": "hist", "r": 12, "color": "#b5602a",
+      "detail": {
+        "type": "Proc. Histórico 381/19.2T8OLH",
+        "info": [
+          {"h": "Objeto", "t": "Bruno Barbosa afastado da administração BG por conflito de interesses"},
+          {"h": "Relevância", "t": "Réus citam §41 da Contestação 171, omitindo proc. 139. Empresa substituta: CRK Lda."}
+        ]
+      }
+    },
+    {
+      "id": "p558", "label": "558\nCautelar\nAnterior", "type": "hist", "r": 12, "color": "#b5602a",
+      "detail": {
+        "type": "Proc. Histórico 558/24",
+        "info": [
+          {"h": "Resultado", "t": "TRE — ganho de causa ACEM em providência cautelar anterior"},
+          {"h": "Relevância", "t": "Precedente favorável no proc. 171"}
+        ]
+      }
+    },
+    {
+      "id": "p402", "label": "402\nQueixa\nDuarte", "type": "hist", "r": 11, "color": "#b5602a",
+      "detail": {
+        "type": "Proc. 402/24.7T9OLH",
+        "info": [
+          {"h": "Queixoso", "t": "Duarte Santos contra Bruno Barbosa (fev. 2024)"},
+          {"h": "Resultado", "t": "JI de Faro não pronunciou — in dubio pro reo, prova insuficiente"},
+          {"h": "Relevância", "t": "Demonstra padrão de litigância criminal contra Bruno. Fernando Tomás: credibilidade como testemunha."}
+        ]
+      }
+    },
+    {
+      "id": "l_simoes", "label": "Dr. Simões", "type": "lawyer", "r": 13, "color": "#3a6fa8",
+      "detail": {"type": "Advogado ACEM", "info": [{"h": "Nome", "t": "Dr. Jorge André Simões"}, {"h": "Processo", "t": "171 — Litígio Cave"}]}
+    },
+    {
+      "id": "l_eduarda", "label": "Dra. Eduarda\nReis", "type": "lawyer", "r": 13, "color": "#3a6fa8",
+      "detail": {"type": "Advogada ACEM", "info": [{"h": "Nome", "t": "Dra. Eduarda Reis"}, {"h": "Processo", "t": "259 — Cautelar AGE"}]}
+    },
+    {
+      "id": "l_manita", "label": "Dr. Manita\nda Cruz", "type": "lawyer", "r": 13, "color": "#3a6fa8",
+      "detail": {"type": "Advogado ACEM", "info": [{"h": "Nome", "t": "Dr. Pedro Manita da Cruz · cédula 48072F"}, {"h": "Processo", "t": "721 — Coima CMO"}]}
+    },
+    {
+      "id": "l_norma", "label": "Dra. Norma\nFarroba", "type": "lawyer", "r": 13, "color": "#3a6fa8",
+      "detail": {"type": "Advogada ACEM", "info": [{"h": "Nome", "t": "Dra. Norma Farroba"}, {"h": "Processo", "t": "805 — Criminal"}, {"h": "Nota", "t": "Substituição em análise"}]}
+    },
+    {
+      "id": "l_galante", "label": "Dr. Galante", "type": "lawyer", "r": 14, "color": "#4a8fca",
+      "detail": {
+        "type": "Mandatário Estratégico",
+        "info": [
+          {"h": "Nome", "t": "Dr. Luís Seabra Galante"},
+          {"h": "Papel", "t": "Mandatário central; coordenação estratégica geral. Reunião pendente antes de qualquer submissão."},
+          {"h": "CMO", "t": "Comunicações à CMO roteadas por ele (dado histórico litigioso)"}
+        ]
+      }
+    },
+    {
+      "id": "duarte", "label": "Duarte Santos\nAdm. BG", "type": "adverse", "r": 14, "color": "#884444",
+      "detail": {
+        "type": "Parte Adversa",
+        "info": [
+          {"h": "Papel", "t": "Administrador Bloco Galeão"},
+          {"h": "Factos", "t": "Assinou lista de presenças com condómino falecido (Fernando Tadeu, fração L-111, †10/02/2026)"},
+          {"h": "Proc. conexo", "t": "402/24 — queixou-se de Bruno; não pronunciado"}
+        ]
+      }
+    },
+    {
+      "id": "jcfb", "label": "João Carlos\nFaleiro", "type": "adverse", "r": 12, "color": "#884444",
+      "detail": {"type": "Parte Adversa", "info": [{"h": "Papel", "t": "Presidiu AGE 28/02/2026"}, {"h": "Conflito", "t": "Conflito de interesses documentado"}]}
+    },
+    {
+      "id": "severino", "label": "Dr. Severino\nAdv. Réus", "type": "adverse", "r": 14, "color": "#884444",
+      "detail": {
+        "type": "Advogado dos Réus",
+        "info": [
+          {"h": "Nome", "t": "Dr. Ricardo Severino · CP71902f"},
+          {"h": "Papel", "t": "Advogado dos réus no proc. 171 e 104"},
+          {"h": "Factos", "t": "Propôs exclusão do voto da ACEM na AGE — conflito de interesses"}
+        ]
+      }
+    },
+    {
+      "id": "bernardo", "label": "Dr. Bernardo\nAdv. Réus", "type": "adverse", "r": 12, "color": "#884444",
+      "detail": {"type": "Advogado dos Réus", "info": [{"h": "Nome", "t": "Dr. Miguel Vicente Bernardo · CP44579f"}, {"h": "Papel", "t": "Advogado dos réus no proc. 104"}]}
+    },
+    {
+      "id": "nuno", "label": "Nuno Amaro\nCRK Lda.", "type": "adverse", "r": 13, "color": "#884444",
+      "detail": {
+        "type": "Parte Adversa / Testemunha Réus",
+        "info": [
+          {"h": "Papel", "t": "Ex-administrador BG; testemunha dos réus no proc. 171"},
+          {"h": "CRK Lda.", "t": "Empresa que substituiu Bruno; perdeu administração quando Bruno foi re-eleito"},
+          {"h": "Conflito", "t": "Conflito de interesses documentado"},
+          {"h": "Pendente", "t": "Queixa-crime ao MP contra Nuno Amaro e MTG"}
+        ]
+      }
+    },
+    {
+      "id": "mtg", "label": "MTG\nCondómina", "type": "adverse", "r": 12, "color": "#884444",
+      "detail": {
+        "type": "Parte Adversa / Testemunha Réus",
+        "info": [
+          {"h": "Nome", "t": "Maria Trigueiros Gomes"},
+          {"h": "Historial", "t": "Requerente derrotada no proc. 139/21; testemunha réus no proc. 171"},
+          {"h": "Credibilidade", "t": "Atacável com acórdão TRE 22/12/2022 (proc. 139)"}
+        ]
+      }
+    },
+    {
+      "id": "nestor", "label": "Nestor Costa\nArrendatário", "type": "adverse", "r": 11, "color": "#884444",
+      "detail": {"type": "Ofendido proc. 805", "info": [{"h": "Papel", "t": "Arrendatário apt. 404 BG; ofendido no proc. 805"}, {"h": "Nota", "t": "Não é condómino"}]}
+    },
+    {
+      "id": "cmo", "label": "CMO\nOlhão", "type": "entity", "r": 16, "color": "#2d7a4f",
+      "detail": {
+        "type": "Entidade",
+        "info": [
+          {"h": "Nome", "t": "Câmara Municipal de Olhão"},
+          {"h": "Proc. 721", "t": "Emitiu coima €22.000. Certidão 2025 confirma licença n.º 50 inclui fração A/100."},
+          {"h": "Lapsus calami", "t": "Confirmado por escrito pela instrutora. Carta DOC.16 recebida antes de condenar."},
+          {"h": "Comunicação", "t": "Roteada por Dr. Galante dado histórico litigioso"}
+        ]
+      }
+    },
+    {
+      "id": "tre", "label": "TRE\nÉvora", "type": "entity", "r": 14, "color": "#2d7a4f",
+      "detail": {"type": "Tribunal", "info": [{"h": "Nome", "t": "Tribunal da Relação de Évora"}, {"h": "Relevância", "t": "Recurso de 2ª instância dos processos de Olhão. Favorável em procs. 139 e 558."}]}
+    },
+    {
+      "id": "tjolhao", "label": "TJ Olhão", "type": "entity", "r": 14, "color": "#2d7a4f",
+      "detail": {"type": "Tribunal", "info": [{"h": "Nome", "t": "Tribunal Judicial de Olhão"}, {"h": "Juízes relevantes", "t": "Dra. Goreti Fernandes (proc. 104)"}]}
+    },
+    {
+      "id": "taf", "label": "TAF Loulé\n(C3 721)", "type": "entity", "r": 12, "color": "#2d7a4f",
+      "detail": {"type": "Tribunal Administrativo", "info": [{"h": "Nome", "t": "Tribunal Administrativo e Fiscal de Loulé"}, {"h": "Relevância", "t": "Caminho C3 do proc. 721 — Ação de nulidade arts. 161–162 CPA + CPTA"}]}
+    },
+    {
+      "id": "age_2026", "label": "AGE\n28/02/2026", "type": "event", "r": 15, "color": "#6b3fa0",
+      "detail": {
+        "type": "Evento Central",
+        "info": [
+          {"h": "Evento", "t": "Assembleia Geral Extraordinária 28/02/2026 (Acta n.º 65)"},
+          {"h": "Voto excluído", "t": "Walter: 403,006‰ — ilegalmente excluído"},
+          {"h": "Aprovação", "t": "Deliberações por minoria: 370,548‰ apenas"},
+          {"h": "Fraude", "t": "Condómino falecido (fração L-111, †10/02/2026) na lista de presenças, assinada por Duarte Santos"},
+          {"h": "Conflito", "t": "Dr. Severino propôs exclusão · João Carlos Faleiro presidiu"}
+        ]
+      }
+    },
+    {
+      "id": "reestr", "label": "Reestruturação\nPH", "type": "event", "r": 14, "color": "#6b3fa0",
+      "detail": {
+        "type": "Projeto Pendente",
+        "info": [
+          {"h": "Objeto", "t": "Subdivisão fração A/100 em 54 frações autónomas (A-CEM-A a A-CEM-AU)"},
+          {"h": "Via legal", "t": "Art. 1422.º-A CC — subdivisão por condómino (janela 30 dias, sem unanimidade)"},
+          {"h": "Primeiro passo", "t": "Pedido info. prévia à CMO (art. 14.º RJUE) — assinado por Dr. Galante"},
+          {"h": "Pendente", "t": "Reunião Dr. Galante · Permilagem AH, AI, AN, AO · Correção omissão fração L · Decisão sobre uso habitacional caves"}
+        ]
+      }
+    },
+    {
+      "id": "faisca", "label": "M. Helena\nFaisca", "type": "witness", "r": 11, "color": "#4a6a4a",
+      "detail": {"type": "Testemunha Favorável", "info": [{"h": "Nome", "t": "Maria Helena Faisca · BG-215"}, {"h": "Processo", "t": "805 — Criminal"}]}
+    },
+    {
+      "id": "ftomas", "label": "Fernando\nTomás", "type": "witness", "r": 11, "color": "#4a6a4a",
+      "detail": {
+        "type": "Testemunha Favorável / Co-gerente",
+        "info": [
+          {"h": "Nome", "t": "Fernando Manuel Pereira Tomás"},
+          {"h": "Papel", "t": "Co-gerente da ACEM; testemunha nos procs. 402/805"},
+          {"h": "Credibilidade", "t": "Corroborada pela não pronúncia no proc. 402"}
+        ]
+      }
+    },
+    {
+      "id": "bruno", "label": "Bruno Barbosa\nGerente Exec.", "type": "core", "r": 14, "color": "#a08030",
+      "detail": {
+        "type": "Gerente Executivo ACEM",
+        "info": [
+          {"h": "Papel", "t": "Gerente executivo da ACEM"},
+          {"h": "Proc. 805", "t": "Arguido no processo criminal"},
+          {"h": "Re-eleito", "t": "Administrador BG em 08/01/2021 — confirmado pelo TRE (proc. 139)"},
+          {"h": "Proc. 402", "t": "Queixa Duarte Santos — não pronunciado"}
+        ]
+      }
+    }
+  ],
+  "links": [
+    {"s": "acem", "t": "p171", "label": "Autora", "strength": 0.4, "color": "#cc3333"},
+    {"s": "acem", "t": "p259", "label": "Requerente", "strength": 0.4, "color": "#cc3333"},
+    {"s": "acem", "t": "p721", "label": "Arguida", "strength": 0.4, "color": "#cc3333"},
+    {"s": "acem", "t": "p805", "label": "Empresa", "strength": 0.4, "color": "#cc3333"},
+    {"s": "acem", "t": "p104", "label": "Autora", "strength": 0.4, "color": "#cc3333"},
+    {"s": "acem", "t": "l_galante", "label": "Estratégia", "strength": 0.3, "color": "#3a6fa8"},
+    {"s": "p171", "t": "l_simoes", "label": "Mandato", "strength": 0.5, "color": "#3a6fa8"},
+    {"s": "p259", "t": "l_eduarda", "label": "Mandato", "strength": 0.5, "color": "#3a6fa8"},
+    {"s": "p721", "t": "l_manita", "label": "Mandato", "strength": 0.5, "color": "#3a6fa8"},
+    {"s": "p805", "t": "l_norma", "label": "Mandato", "strength": 0.5, "color": "#3a6fa8"},
+    {"s": "l_galante", "t": "cmo", "label": "Comunica", "strength": 0.3, "color": "#2d7a4f"},
+    {"s": "l_galante", "t": "reestr", "label": "Coordena", "strength": 0.3, "color": "#6b3fa0"},
+    {"s": "age_2026", "t": "p259", "label": "Objeto", "strength": 0.5, "color": "#6b3fa0"},
+    {"s": "age_2026", "t": "p171", "label": "Conexo", "strength": 0.3, "color": "#6b3fa0"},
+    {"s": "age_2026", "t": "p104", "label": "Padrão", "strength": 0.3, "color": "#6b3fa0"},
+    {"s": "age_2026", "t": "duarte", "label": "Assinou lista", "strength": 0.4, "color": "#884444"},
+    {"s": "age_2026", "t": "jcfb", "label": "Presidiu", "strength": 0.4, "color": "#884444"},
+    {"s": "age_2026", "t": "severino", "label": "Propôs exclusão", "strength": 0.4, "color": "#884444"},
+    {"s": "severino", "t": "p171", "label": "Adv. Réus", "strength": 0.4, "color": "#884444"},
+    {"s": "severino", "t": "p104", "label": "Adv. Réus", "strength": 0.4, "color": "#884444"},
+    {"s": "bernardo", "t": "p104", "label": "Adv. Réus", "strength": 0.5, "color": "#884444"},
+    {"s": "duarte", "t": "p402", "label": "Queixoso", "strength": 0.4, "color": "#884444"},
+    {"s": "duarte", "t": "p259", "label": "Réu", "strength": 0.3, "color": "#884444"},
+    {"s": "nuno", "t": "p171", "label": "Test. Réus", "strength": 0.3, "color": "#884444"},
+    {"s": "nuno", "t": "p381", "label": "Gestor", "strength": 0.4, "color": "#b5602a"},
+    {"s": "mtg", "t": "p139", "label": "Requerente", "strength": 0.4, "color": "#b5602a"},
+    {"s": "mtg", "t": "p171", "label": "Test. Réus", "strength": 0.3, "color": "#884444"},
+    {"s": "nestor", "t": "p805", "label": "Ofendido", "strength": 0.5, "color": "#884444"},
+    {"s": "cmo", "t": "p721", "label": "Emite coima", "strength": 0.5, "color": "#2d7a4f"},
+    {"s": "taf", "t": "p721", "label": "C3 — Nulidade", "strength": 0.4, "color": "#2d7a4f"},
+    {"s": "tjolhao", "t": "p171", "label": "Julgamento", "strength": 0.4, "color": "#2d7a4f"},
+    {"s": "tjolhao", "t": "p104", "label": "Julgamento", "strength": 0.4, "color": "#2d7a4f"},
+    {"s": "tjolhao", "t": "p259", "label": "Julgamento", "strength": 0.4, "color": "#2d7a4f"},
+    {"s": "tjolhao", "t": "p805", "label": "Julgamento", "strength": 0.4, "color": "#2d7a4f"},
+    {"s": "tre", "t": "p139", "label": "Acórdão 22/12/22", "strength": 0.4, "color": "#2d7a4f"},
+    {"s": "tre", "t": "p558", "label": "Acórdão", "strength": 0.4, "color": "#2d7a4f"},
+    {"s": "p381", "t": "p139", "label": "Seguiu-se", "strength": 0.4, "color": "#b5602a"},
+    {"s": "p139", "t": "p171", "label": "Omitido réus", "strength": 0.3, "color": "#b5602a", "dash": "4,4"},
+    {"s": "p558", "t": "p171", "label": "Precedente", "strength": 0.3, "color": "#b5602a", "dash": "4,4"},
+    {"s": "p402", "t": "p805", "label": "Padrão", "strength": 0.3, "color": "#884444", "dash": "4,4"},
+    {"s": "p259", "t": "p171", "label": "Cautelar conexa", "strength": 0.4, "color": "#cc3333", "dash": "4,4"},
+    {"s": "p104", "t": "p259", "label": "Padrão voto", "strength": 0.3, "color": "#cc3333", "dash": "4,4"},
+    {"s": "acem", "t": "bruno", "label": "Gerente", "strength": 0.4, "color": "#c9a84c"},
+    {"s": "bruno", "t": "p805", "label": "Arguido", "strength": 0.5, "color": "#cc3333"},
+    {"s": "bruno", "t": "p139", "label": "Re-eleito", "strength": 0.3, "color": "#b5602a"},
+    {"s": "bruno", "t": "p402", "label": "Acusado", "strength": 0.4, "color": "#884444"},
+    {"s": "faisca", "t": "p805", "label": "Testemunha", "strength": 0.4, "color": "#4a6a4a"},
+    {"s": "ftomas", "t": "p805", "label": "Testemunha", "strength": 0.3, "color": "#4a6a4a"},
+    {"s": "ftomas", "t": "p402", "label": "Testemunha", "strength": 0.3, "color": "#4a6a4a"},
+    {"s": "ftomas", "t": "acem", "label": "Co-gerente", "strength": 0.3, "color": "#c9a84c"},
+    {"s": "reestr", "t": "p171", "label": "Interdependente", "strength": 0.3, "color": "#6b3fa0", "dash": "4,4"},
+    {"s": "reestr", "t": "p721", "label": "Use habit.", "strength": 0.2, "color": "#6b3fa0", "dash": "4,4"},
+    {"s": "acem", "t": "reestr", "label": "Projeto", "strength": 0.3, "color": "#6b3fa0"}
+  ]
+}
