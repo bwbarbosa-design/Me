@@ -1,6 +1,12 @@
 {
   "version": 1,
   "skills": {
+    "agent-skills-context-engineering": {
+      "source": "aradotso/ai-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/agent-skills-context-engineering/SKILL.md",
+      "computedHash": "9b76e52a5b423959bb14c66abc04e030d8de63ac13c74ca6c0396ca9b7684066"
+    },
     "find-skills": {
       "source": "vercel-labs/skills",
       "sourceType": "github",
