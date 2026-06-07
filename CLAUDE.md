@@ -59,6 +59,14 @@ Standalone browser tool: paste a free-text knowledge base → calls Claude API �
 
 When modifying any frontend file (HTML, CSS, JS with UI concerns) in this repo, always apply the **impeccable** skill standards from `.agents/skills/impeccable/SKILL.md` — design guidance for color, typography, layout, and motion. Follow its setup steps before making changes. This applies to `graphify_codex.html`, `graph.html` (generated output), and any future UI files.
 
+## Session Handoff
+
+At the end of each session, or before the context is compacted, do two things:
+
+1. **`CONTEXT.md`** — this file is auto-written by the `PreCompact` hook (`.claude/save-context.sh`) with the current git state. No manual action needed.
+
+2. **Notion** — update the relevant pages in the [⚖️ ACEM — Processos Judiciais](https://app.notion.com/p/3677aba6bb0e817ab468f8a317b9d5bd) workspace. The main page links to sub-pages for each active process (171, 259, 721, 805, 104) and projects (Reestruturação PH). Update whichever pages reflect work done in the session. The main page already contains the note: *"Este espaço é atualizado no final de cada sessão de trabalho com o Claude."*
+
 ## Architecture Notes
 
 `graphify.py` embeds the entire D3.js visualization as a raw string template (`HTML_TEMPLATE`) and injects the graph data as inline JSON via `{{GRAPH_DATA}}` placeholder replacement. There is no build step — the output is a fully self-contained HTML file that loads D3 from CDN.
