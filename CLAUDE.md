@@ -55,6 +55,10 @@ Standalone browser tool: paste a free-text knowledge base → calls Claude API �
 
 **Model reference:** The file currently references `claude-sonnet-4-20250514`. The current equivalent model ID is `claude-sonnet-4-6`.
 
+## Design Standards
+
+When modifying any frontend file (HTML, CSS, JS with UI concerns) in this repo, always apply the **impeccable** skill standards from `.agents/skills/impeccable/SKILL.md` — design guidance for color, typography, layout, and motion. Follow its setup steps before making changes. This applies to `graphify_codex.html`, `graph.html` (generated output), and any future UI files.
+
 ## Architecture Notes
 
 `graphify.py` embeds the entire D3.js visualization as a raw string template (`HTML_TEMPLATE`) and injects the graph data as inline JSON via `{{GRAPH_DATA}}` placeholder replacement. There is no build step — the output is a fully self-contained HTML file that loads D3 from CDN.
