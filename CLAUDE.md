@@ -81,6 +81,20 @@ Before starting a frontend task, assess whether any of these would materially im
 
 For any question about Portuguese law, procedure, or jurisprudência, use the **Legal Data Hunter MCP** (available in session) instead of answering from memory. It covers 40+ countries including Portugal with 13M+ documents and returns verifiable inline citations.
 
+## Document Processing
+
+When a PDF is provided in the project context, always convert it first with **markitdown** before processing:
+
+```bash
+# PDF digital
+markitdown documento.pdf > documento.md
+
+# Scan ou PDF sem texto seleccionável — via Claude Vision
+markitdown scan.pdf --llm-client anthropic --llm-model claude-sonnet-4-6 > documento.md
+```
+
+Use the resulting `.md` as the input for analysis, graphify updates, or Notion sync.
+
 ## Session Handoff
 
 At the end of each session, or before the context is compacted, do two things:
