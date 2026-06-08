@@ -77,6 +77,10 @@ Before starting a frontend task, assess whether any of these would materially im
 - `image-to-code` — when converting a design image to working code
 - `imagegen-frontend-web` / `imagegen-frontend-mobile` — when generating UI images as design references
 
+## Legal Research
+
+For any question about Portuguese law, procedure, or jurisprudência, use the **Legal Data Hunter MCP** (available in session) instead of answering from memory. It covers 40+ countries including Portugal with 13M+ documents and returns verifiable inline citations.
+
 ## Session Handoff
 
 At the end of each session, or before the context is compacted, do two things:
