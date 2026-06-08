@@ -62,20 +62,20 @@ When modifying any frontend file (HTML, CSS, JS with UI concerns) in this repo, 
 **Always active — read these on every frontend task:**
 - `.agents/skills/impeccable/SKILL.md` — color contrast, typography, layout, motion, anti-patterns. Follow its setup steps first.
 - `.agents/skills/emil-design-eng/SKILL.md` — UI polish, micro-interactions, animation decisions, invisible details.
-- `.agents/skills/high-end-visual-design/SKILL.md` — fonts, spacing, shadows, animations that make a UI feel expensive.
-- `.agents/skills/full-output-enforcement/SKILL.md` — never truncate; always emit complete, unabridged code.
 
-**Use based on task:**
-- `.agents/skills/design-taste-frontend/SKILL.md` — landing pages, portfolios, redesigns (anti-slop, never templated).
-- `.agents/skills/minimalist-ui/SKILL.md` — when the direction is clean, editorial, warm monochrome.
-- `.agents/skills/gpt-taste/SKILL.md` — when GSAP motion, bento grids, or editorial typography is needed.
-- `.agents/skills/industrial-brutalist-ui/SKILL.md` — when the direction is brutalist or industrial.
-- `.agents/skills/stitch-design-taste/SKILL.md` — for stitching multiple design references into a coherent system.
-- `.agents/skills/brandkit/SKILL.md` — when creating brand identity, logo systems, or visual-world decks.
-- `.agents/skills/redesign-existing-projects/SKILL.md` — when redesigning an existing UI from scratch.
-- `.agents/skills/image-to-code/SKILL.md` — when converting a design image to working code.
-- `.agents/skills/imagegen-frontend-web/SKILL.md` — when generating web UI images as design references.
-- `.agents/skills/imagegen-frontend-mobile/SKILL.md` — when generating mobile UI images.
+**Available — propose activating when genuinely beneficial:**
+Before starting a frontend task, assess whether any of these would materially improve the output. If so, propose it to the user before proceeding:
+- `design-taste-frontend` — landing pages, portfolios, redesigns that must not look templated
+- `high-end-visual-design` — when the bar is "feels expensive", not just functional
+- `full-output-enforcement` — when the output is large and truncation would be a real risk
+- `gpt-taste` — when GSAP motion, bento grids, or editorial typography is the direction
+- `minimalist-ui` — when the direction is explicitly clean, editorial, warm monochrome
+- `industrial-brutalist-ui` — when the aesthetic is brutalist or industrial
+- `stitch-design-taste` — when stitching multiple visual references into one system
+- `brandkit` — when creating brand identity, logo systems, or visual-world decks
+- `redesign-existing-projects` — when redesigning an existing UI from scratch
+- `image-to-code` — when converting a design image to working code
+- `imagegen-frontend-web` / `imagegen-frontend-mobile` — when generating UI images as design references
 
 ## Session Handoff
 
